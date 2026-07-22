@@ -4,8 +4,6 @@ venv/
 env/
 .venv/
 .env
-output/
-data/
 *.png
 *.jpg
 *.jpeg
