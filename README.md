@@ -1,4 +1,4 @@
-# Driver Drowsiness and Impaired-Alertness Detection System
+# Driver Drowsiness Detection System
 
 Modular implementation covering the software stages (hardware excluded).
 Rule-Based, SVM, and Random Forest are implemented. MLP / CNN / LSTM / TCN
