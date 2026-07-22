@@ -67,9 +67,3 @@ python main.py --video 0 --algorithm rule_based
 Video -> FaceLandmarkExtractor -> FeatureExtractor -> TemporalBuffer
 -> algorithm -> TemporalSmoother -> Display/Save
 
-
-## Troubleshooting
-
-If one label makes up >85% of samples, head-pose thresholds in
-`utils/config.py` are likely miscalibrated. Try raising
-`head_yaw_distraction_deg` / `head_pitch_distraction_deg` and re-run.
