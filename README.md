@@ -67,11 +67,6 @@ python main.py --video 0 --algorithm rule_based
 Video -> FaceLandmarkExtractor -> FeatureExtractor -> TemporalBuffer
 -> algorithm -> TemporalSmoother -> Display/Save
 
-## Future Work
-
-1. MLP: add class under `models/` inheriting from `BaseMLClassifier`
-2. CNN/LSTM/TCN: use `TemporalBuffer.get_recent_features()`
-3. Dashboard: `main.py` already produces needed per-frame data
 
 ## Troubleshooting
 
