@@ -10,9 +10,9 @@ from models.svm_model import SVMClassifier
 from models.random_forest_model import RandomForestModel
 
 
-_REGISTRY: Dict[str, Type[BaseMLClassifier]] = {
+_REGISTRY: Dict[str,Type[BaseMLClassifier]] = {
     "svm": SVMClassifier,
-    "random_forest": RandomForestModel,
+    "random_forest":RandomForestModel,
     "rf": RandomForestModel,
 }
 

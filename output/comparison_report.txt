@@ -1,0 +1,47 @@
+Driver State Detection Algorithm Comparison Report
+============================================================
+
+Model: SVM
+  Accuracy: 0.7450
+  Avg latency: 0.8941 ms
+  Latency std dev: 0.1556 ms
+  Latency measured on: 200 samples
+  Classification report:
+              precision    recall  f1-score   support
+
+       Alert       0.09      0.59      0.15        49
+  Distracted       0.98      0.73      0.84      1546
+      Drowsy       0.22      0.68      0.34        34
+         FNV       1.00      1.00      1.00        34
+  Microsleep       0.71      0.94      0.81       137
+
+    accuracy                           0.74      1800
+   macro avg       0.60      0.79      0.63      1800
+weighted avg       0.92      0.74      0.81      1800
+
+  Confusion matrix labels (row/col order): ['Alert', 'Distracted', 'Drowsy', 'FNV', 'Microsleep']
+  Confusion matrix:
+[[29, 19, 1, 0, 0], [300, 1126, 74, 0, 46], [4, 0, 23, 0, 7], [0, 0, 0, 34, 0], [1, 2, 5, 0, 129]]
+------------------------------------------------------------
+Model: RandomForest
+  Accuracy: 0.9522
+  Avg latency: 56.3142 ms
+  Latency std dev: 21.0463 ms
+  Latency measured on: 200 samples
+  Classification report:
+              precision    recall  f1-score   support
+
+       Alert       0.41      0.14      0.21        49
+  Distracted       0.96      0.99      0.97      1546
+      Drowsy       0.83      0.59      0.69        34
+         FNV       1.00      1.00      1.00        34
+  Microsleep       0.95      0.91      0.93       137
+
+    accuracy                           0.95      1800
+   macro avg       0.83      0.73      0.76      1800
+weighted avg       0.94      0.95      0.94      1800
+
+  Confusion matrix labels (row/col order): ['Alert', 'Distracted', 'Drowsy', 'FNV', 'Microsleep']
+  Confusion matrix:
+[[7, 42, 0, 0, 0], [10, 1528, 3, 0, 5], [0, 12, 20, 0, 2], [0, 0, 0, 34, 0], [0, 11, 1, 0, 125]]
+------------------------------------------------------------

@@ -27,11 +27,13 @@ class TemporalBuffer:
         self._buffer:Deque[FrameFeatures] = deque(maxlen=self._config.buffer_size)
         self._eye_closed_history: Deque[bool] =deque(maxlen=self._config.buffer_size)
         self._total_frames_seen=0
+        self._consecutive_closed=0
 
     def push(self,features: FrameFeatures) -> None:
         self._buffer.append(features)
         is_closed = features.face_detected and features.ear < self._thresholds.ear_threshold
         self._eye_closed_history.append(is_closed)
+        self._consecutive_closed = self._consecutive_closed + 1 if is_closed else 0
         self._total_frames_seen +=1
 
     def get_recent_features(self, n:int=None) -> List[FrameFeatures]:
@@ -40,13 +42,7 @@ class TemporalBuffer:
         return list(self._buffer)[-n:]
 
     def consecutive_closed_frames(self) -> int:
-        count=0
-        for is_closed in reversed(self._eye_closed_history):
-            if is_closed:
-                count += 1
-            else:
-                break
-        return count
+        return self._consecutive_closed
 
     def compute_blink_stats(self,fps:float =None) -> BlinkStats:
         fps = fps or self._config.fps_assumed
@@ -70,7 +66,7 @@ class TemporalBuffer:
         return BlinkStats(
             blink_count=blink_count,
             blink_rate_per_min=blink_rate_per_min,
-            consecutive_closed_frames=self.consecutive_closed_frames(),
+            consecutive_closed_frames=self._consecutive_closed,
         )
 
     def is_full(self) -> bool:
@@ -83,3 +79,4 @@ class TemporalBuffer:
         self._buffer.clear()
         self._eye_closed_history.clear()
         self._total_frames_seen =0
+        self._consecutive_closed=0

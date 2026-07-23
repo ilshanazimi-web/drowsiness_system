@@ -40,20 +40,19 @@ class BaseMLClassifier(ABC):
     def predict(self,X: np.ndarray) -> np.ndarray:
         if not self._is_fitted:
             raise RuntimeError(
-                f"Model '{self.name}' not trained. Call fit() or load()."
-            )
+                f"Model '{self.name}' not trained. Call fit() or load().")
+            
         X_scaled = self._scaler.transform(np.atleast_2d(X))
         return self._model.predict(X_scaled)
 
     def predict_single(self, feature_vector: np.ndarray) -> Tuple[str,float]:
         start = perf_counter()
         label = self.predict(feature_vector.reshape(1, -1))[0]
-        latency_ms = (perf_counter() - start) *1000.0
+        latency_ms = (perf_counter()- start) *1000.0
         return label,latency_ms
 
-    def evaluate(self,X_test: np.ndarray, y_test: np.ndarray, n_latency_samples: int = 200) -> dict:
+    def evaluate(self,X_test: np.ndarray, y_test:np.ndarray, n_latency_samples:int= 200) -> dict:
         predictions =self.predict(X_test)
-
         rng = np.random.default_rng(CONFIG.ml.random_state)
         n_samples = min(n_latency_samples,len(X_test))
         sample_idx = rng.choice(len(X_test),size=n_samples, replace=False)
@@ -62,7 +61,7 @@ class BaseMLClassifier(ABC):
         for idx in sample_idx:
             start = perf_counter()
             _ = self.predict(X_test[idx].reshape(1,-1))
-            latencies.append((perf_counter()- start) * 1000.0)
+            latencies.append((perf_counter()- start)*1000.0)
 
         return {
             "model_name":self.name,

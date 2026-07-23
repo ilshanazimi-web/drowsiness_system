@@ -65,6 +65,9 @@ class FeatureExtractor:
         ],
         dtype=np.float64)
 
+    def __init__(self):
+        self._camera_cache: dict[tuple[int, int], tuple[np.ndarray, np.ndarray]] = {}
+
     @staticmethod
     def _eye_aspect_ratio(eye_points: np.ndarray) -> float:
         p1, p2,p3, p4, p5,p6 = eye_points
@@ -88,16 +91,21 @@ class FeatureExtractor:
         image_points = landmark_result.get_points(LANDMARKS.HEAD_POSE_2D).astype(np.float64)
 
         h, w = landmark_result.frame_height, landmark_result.frame_width
-        focal_length =w
-        center = (w /2.0, h/2.0)
-        camera_matrix = np.array(
-            [
-                [focal_length, 0, center[0]],
-                [0, focal_length,center[1]],
-                [0,0, 1] ],
-            
-            dtype=np.float64)
-        dist_coeffs = np.zeros((4, 1))
+        cache_key = (w, h)
+        if cache_key not in self._camera_cache:
+            focal_length = w
+            center = (w / 2.0, h / 2.0)
+            camera_matrix = np.array(
+                [
+                    [focal_length, 0, center[0]],
+                    [0, focal_length, center[1]],
+                    [0, 0, 1]
+                ],
+                dtype=np.float64)
+            dist_coeffs = np.zeros((4, 1))
+            self._camera_cache[cache_key] = (camera_matrix, dist_coeffs)
+
+        camera_matrix, dist_coeffs = self._camera_cache[cache_key]
 
         success,rotation_vec, _translation_vec = cv2.solvePnP(
             self._MODEL_POINTS_3D,

@@ -22,8 +22,8 @@ class RandomForestModel(BaseMLClassifier):
         super().__init__(
             model_path=model_path,
             scaler_path=scaler_path,
-            config= config,
-        )
+            config= config)
+        
 
     def _build_model(self) -> RandomForestClassifier:
         cfg = self._config
@@ -32,5 +32,5 @@ class RandomForestModel(BaseMLClassifier):
             max_depth=cfg.rf_max_depth,
             class_weight= cfg.rf_class_weight,
             random_state=cfg.random_state,
-            n_jobs=-1,
-        )
+            n_jobs=-1)
+        

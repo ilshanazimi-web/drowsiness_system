@@ -6,6 +6,7 @@ thin wrapper around mediapipe facemesh
 from dataclasses import dataclass
 from typing import List, Optional
 
+import cv2
 import numpy as np
 
 try:
@@ -45,8 +46,6 @@ class FaceLandmarkExtractor:
         )
 
     def process(self, frame_bgr: np.ndarray) -> List["FaceLandmarkResult"]:
-        import cv2
-
         frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
         frame_rgb.flags.writeable = False
         results = self._face_mesh.process(frame_rgb)

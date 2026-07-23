@@ -40,8 +40,8 @@ def parse_args()->argparse.Namespace:
     
     parser.add_argument(
         "--log-format",type=str,default="csv",choices=["csv","json"],
-        help= "log format",
-    )
+        help= "log format")
+    
     return parser.parse_args()
 
 
